@@ -37,8 +37,8 @@ services:
     ports:
       - "3001:8081"
     environment:
-      - DRUID_XMX=1g
-      - DRUID_XMS=1g
+      - DRUID_XMX=2g
+      - DRUID_XMS=2g
       - DRUID_MAXNEWSIZE=250m
       - DRUID_NEWSIZE=250m
       - MYSQL_USERNAME=druid
@@ -49,8 +49,8 @@ services:
       - zookeeper
       - kafka
     volumes:
-      - ./data/:/var/data/
-      - ./logs/:/opt/druid/var/druid/indexing-logs
+      - /Users/prathang/Prathang/Learnings/Assignment/data:/var/data/
+      - /Users/prathang/Prathang/Learnings/Assignment/logs:/opt/druid/var/druid/indexing-logs
     command:
       - coordinator
 
@@ -62,11 +62,11 @@ services:
     ports:
       - "3002:8082"
     environment:
-      - DRUID_XMX=1g
-      - DRUID_XMS=1g
+      - DRUID_XMX=2g
+      - DRUID_XMS=2g
       - DRUID_MAXNEWSIZE=250m
       - DRUID_NEWSIZE=250m
-      - DRUID_MAXDIRECTMEMORY=256m
+      - DRUID_MAXDIRECTMEMORY=1g
       - DRUID_PROCESS_THREADS=2
       - DRUID_PROCESS_BUFFER=53687091
       - MYSQL_USERNAME=druid
@@ -89,14 +89,14 @@ services:
     ports:
       - "3003:8083"
     environment:
-      - DRUID_XMX=1g
-      - DRUID_XMS=1g
+      - DRUID_XMX=2g
+      - DRUID_XMS=2g
       - DRUID_MAXNEWSIZE=250m
       - DRUID_NEWSIZE=250m
       - MYSQL_USERNAME=druid
       - MYSQL_PASSWORD=keepasecret
       - KAFKA_BOOTSTRAP=kafka:9092
-      - DRUID_MAXDIRECTMEMORY=600m
+      - DRUID_MAXDIRECTMEMORY=1g
       - DRUID_PROCESS_THREADS=2
       - DRUID_PROCESS_BUFFER=53687091
     depends_on:
@@ -105,7 +105,7 @@ services:
       - kafka
       - coordinator
     volumes:
-      - ./deep_storage/:/opt/druid/var/druid/segments
+      - /Users/prathang/Prathang/Learnings/Assignment/deep_storage:/opt/druid/var/druid/segments
     command:
       - historical
 
@@ -116,11 +116,15 @@ services:
     build: .
     ports:
       - "4001:8091"
+    cpu_shares: 7000
     environment:
-      - DRUID_XMX=25m
-      - DRUID_XMS=25m
-      - DRUID_MAXNEWSIZE=25m
-      - DRUID_NEWSIZE=25m
+      - DRUID_XMX=2g
+      - DRUID_XMS=2g
+      - DRUID_MAXNEWSIZE=250m
+      - DRUID_NEWSIZE=250m
+      - DRUID_MAXDIRECTMEMORY=1g
+      - DRUID_PROCESS_THREADS=2
+      - DRUID_PROCESS_BUFFER=53687091
       - MYSQL_USERNAME=druid
       - MYSQL_PASSWORD=keepasecret
       - KAFKA_BOOTSTRAP=kafka:9092
@@ -130,8 +134,8 @@ services:
       - kafka
       - coordinator
     volumes:
-      - ./data/:/var/data/
-      - ./deep_storage/:/opt/druid/var/druid/segments
-      - ./logs/:/opt/druid/var/druid/indexing-logs
+      - /Users/prathang/Prathang/Learnings/Assignment/data:/var/data/
+      - /Users/prathang/Prathang/Learnings/Assignment/deep_storage:/opt/druid/var/druid/segments
+      - /Users/prathang/Prathang/Learnings/Assignment/logs:/opt/druid/var/druid/indexing-logs
     command:
       - middleManager
